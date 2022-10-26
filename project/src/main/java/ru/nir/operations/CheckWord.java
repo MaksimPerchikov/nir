@@ -1,41 +1,37 @@
 package ru.nir.operations;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
-import ru.nir.dto.CustomerDTO;
-import ru.nir.dto.CustomerTaskDTO;
 import ru.nir.exceptions.MyClassExceptions;
 
 //Проверка слов на наличие знаков #,$, и пробела в начале слова
 @Component
-public class CheckWord <T>{
+public class CheckWord {
 
-    private final MyClassExceptions myClassExceptions;
+    private static String MESSAGE_ERROR = "Объект, в начале полей которого присутствуют знаки _, $, # добавиться не могут!";
 
-    private T type;
-    //private S customerTaskDTO;
+    //сделать через дженерики,чтобы принимал разные объекты,мб и не через дженерики
+    public boolean checkWordToString(MyClassExceptions myClassExceptions, String... s) {
+        List<String> stringList = Arrays.stream(s)
+            .collect(Collectors.toList());
 
-    @Autowired
-    public CheckWord(MyClassExceptions myClassExceptions) {
-        this.myClassExceptions = myClassExceptions;
-    }
-
-    //сделать через дженерики,чтобы принимал разные объекты
-    public void chekWordToString(T type) {
-
-
-        /*if (type.getSecondName() != null
-            && customerDTO.getFirstName() != null) {
-            String firstName = customerDTO.getFirstName();
-            String secondName = customerDTO.getSecondName();
-            if (firstName.contains("$") &&
-                firstName.contains("#") &&
-                firstName.contains(" ") &&
-                secondName.contains("$") &&
-                secondName.contains("#") &&
-                secondName.contains(" ")
-            )
-*/
+        stringList.stream()
+            .filter(element -> {
+                char charElement = element.charAt(0);
+                switch (charElement) {
+                    case ' ':
+                    case '$':
+                    case '#':
+                        myClassExceptions.showMeThisException(MESSAGE_ERROR,
+                            new RuntimeException()
+                        );
+                        return false;
+                }
+                return true;
+            });
+        return true;
     }
 
 }

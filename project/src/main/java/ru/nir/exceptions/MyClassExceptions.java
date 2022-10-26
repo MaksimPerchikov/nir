@@ -2,6 +2,7 @@ package ru.nir.exceptions;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.nir.exceptions.interfaceMCE.MyClassExceptionsInterface;
 import ru.nir.operations.console.DisplayerToConsole;
 
 //класс для вызова ошибки, избежание дублирования
