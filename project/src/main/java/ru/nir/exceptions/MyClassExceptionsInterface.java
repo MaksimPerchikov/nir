@@ -1,4 +1,4 @@
-package ru.nir.exceptions;
+package ru.nir.exceptions.interfaceMCE;
 
 public interface MyClassExceptionsInterface {
 
