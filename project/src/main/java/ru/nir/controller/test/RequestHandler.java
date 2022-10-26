@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 //получить хедеры из метода
-@RestController
-@RequestMapping("/api")
+/*@RestController
+@RequestMapping("/api")*/
 public class RequestHandler {
 
-    private final ConverterDistributor converterDistributor;
+    /*private final ConverterDistributor converterDistributor;
 
     @Autowired
     public RequestHandler(ConverterDistributor converterDistributor) {
@@ -40,6 +40,6 @@ public class RequestHandler {
     private Object handleRequest(HttpServletRequest request) throws ServletException, IOException {
         converterDistributor.converterRequests(request);
         return null;
-    }
+    }*/
 
 }

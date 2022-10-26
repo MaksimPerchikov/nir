@@ -1,6 +1,6 @@
 package ru.nir.dto;
 
-public class CustomerTaskDTO {
+public class TaskDTO {
 
     private String nameTask;
     private String text;
