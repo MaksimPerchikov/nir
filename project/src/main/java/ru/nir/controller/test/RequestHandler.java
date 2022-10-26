@@ -1,4 +1,4 @@
-package ru.nir.controller;
+package ru.nir.controller.test;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

@@ -1,29 +1,29 @@
-package ru.nir.service.operationsOver;
+package ru.nir.service.operationsOverDb;
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import ru.nir.dto.CustomerDTO;
-import ru.nir.dto.TaskDTO;
 import ru.nir.model.Customer;
 import ru.nir.model.Task;
 import ru.nir.repository.CustomerRepository;
 import ru.nir.repository.TaskRepository;
-import ru.nir.service.operationsOver.interfaces.OperationByOperationsWithRepository;
+import ru.nir.service.operationsOverDb.interfaces.OperationByOperationsWithRepository;
 
 @Service
 public class OperationsWithRepository implements OperationByOperationsWithRepository {
 
-    private final CustomerRepository customerRepository;
+    private CustomerRepository customerRepository;
 
-    private final TaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
-
-    public OperationsWithRepository(CustomerRepository customerRepository,
+    @Autowired
+    public OperationsWithRepository(
+        CustomerRepository customerRepository,
         TaskRepository taskRepository){
         this.customerRepository = customerRepository;
         this.taskRepository = taskRepository;
     }
-
 
     @Override
     public List<Customer> showMeAllCustomers() {

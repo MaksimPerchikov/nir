@@ -1,8 +1,6 @@
-package ru.nir.service.operationsOver.interfaces;
+package ru.nir.service.operationsOverDb.interfaces;
 
 import java.util.List;
-import ru.nir.dto.CustomerDTO;
-import ru.nir.dto.TaskDTO;
 import ru.nir.model.Customer;
 import ru.nir.model.Task;
 

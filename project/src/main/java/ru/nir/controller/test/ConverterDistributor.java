@@ -1,4 +1,4 @@
-package ru.nir.controller;
+package ru.nir.controller.test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import ru.nir.controller.CustomerTaskController;
 import ru.nir.dto.TaskDTO;
 
 /*@Log4j2

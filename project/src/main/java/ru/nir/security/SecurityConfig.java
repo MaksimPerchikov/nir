@@ -1,14 +1,10 @@
-package ru.nir.controller.security;
+/*
+package ru.nir.security;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -20,11 +16,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/hi").permitAll()
             .anyRequest().authenticated()
             .and()
-        /*.oauth2Client();*/
+        */
+/*.oauth2Client();*//*
+
             .httpBasic();
     }
 
-    /*@Override
+    */
+/*@Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
@@ -35,14 +34,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //provider.setPasswordEncoder(passwordEncoder);
        // provider.setUserDetailsService(applicationUserService);
         return provider;
-    }*/
+    }*//*
 
-    /*@Override
+
+    */
+/*@Override
     public UserDetailsService userDetailsServiceBean() throws Exception {
         UserDetailsService userFirst = User.builder()
             .username("max")
             .password("123")
             .build();
         return new
-    }*/
+    }*//*
+
 }
+*/
