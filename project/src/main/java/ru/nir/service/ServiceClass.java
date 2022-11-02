@@ -3,10 +3,7 @@ package ru.nir.service;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.nir.dto.CustomerDTO;
-import ru.nir.dto.TaskDTO;
 import ru.nir.exceptions.MyClassExceptions;
-import ru.nir.model.Customer;
 import ru.nir.model.Task;
 
 import java.util.List;
@@ -31,15 +28,6 @@ public class ServiceClass implements MethodsInterfaceByService {
         this.checkWord = checkWord;
     }
 
-
-    @Override
-    public List<Customer> showMeAllCustomersService() {
-        if (operations.showMeAllCustomers().isEmpty()) {
-            myClassExceptions.showMeThisException("Пользователей нет!", new Exception());
-            //log.info("My some text.");
-        }
-        return operations.showMeAllCustomers();
-    }
 
     @Override
     public List<Task> showMeAllTasksService() {
@@ -73,58 +61,33 @@ public class ServiceClass implements MethodsInterfaceByService {
         return task;
 
     }
+    public Task getTaskByNameService(String name) {
+        List<Task> listTask =
+            operations.showMeAllTasks();
 
-    @Override
-    public Customer getCustomerByIdService(Long id) {
-        List<Customer> customersList =
-            operations.showMeAllCustomers();
-        if (customersList.isEmpty()) {
-            myClassExceptions.showMeThisException("Пользователи не существуют!",
-                new RuntimeException());
-        }
-        Customer customer = new Customer();
-        if (id != null) {
-            customer = customersList
-                .stream()
-                .filter(element -> element.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        }
-        if (customer == null) {
-            myClassExceptions.showMeThisException("Пользователь с id " + id + " не найден.",
-                new RuntimeException());
-        }
-        return customer;
-    }
-
-    @Override//проверить, существует ли в базе такое значение
-    public Task addTaskService(TaskDTO taskDTO) {
-
-      /*  boolean resultCheck =
-            checkWord.checkWordToString(myClassExceptions, taskDTO.getNameTask(), taskDTO.getText());
-        if (resultCheck) {*/
-
-        //TODO checkWord доделать проверку орфографии
-        //checkWord.chekWordToString(taskDTO);//тру,если содержит некрректные значения
-        if (taskDTO.getNameTask() == null ||
-            taskDTO.getText() == null) {
-            myClassExceptions.showMeThisException("Некорректное значение!",
+        if (listTask.isEmpty()) {
+            myClassExceptions.showMeThisException("Задач нет, добавьте сначала задачу!",
                 new RuntimeException());
         }
         Task task = new Task();
-        task.setNameTask(taskDTO.getNameTask());
-        task.setText(taskDTO.getText());
-        operations.addTask(task);
+        if (name != null) {
+            task = listTask.stream()
+                .filter(element -> element.getNameTask().equals(name))
+                .findFirst()
+                .orElse(null);
+        }
+        if (task == null) {
+            myClassExceptions.showMeThisException("Задача с name " + name + " не найдена.",
+                new RuntimeException());
+        }
+
         return task;
-   // }
-     //   return null;
 
-}
+    }
 
-    @Override
-    public Task addTaskWithoutDTOService(Task task) {
-        /*CheckWord<TaskDTO> check = new CheckWord<>(myClassExceptions);
-        check.chekWordToString(taskDTO);*/
+    @Override//проверить, существует ли в базе такое значение
+    public Task addTaskService(Task task) {
+
         //TODO checkWord доделать проверку орфографии
         //checkWord.chekWordToString(taskDTO);//тру,если содержит некрректные значения
         if (task.getNameTask() == null ||
@@ -132,26 +95,8 @@ public class ServiceClass implements MethodsInterfaceByService {
             myClassExceptions.showMeThisException("Некорректное значение!",
                 new RuntimeException());
         }
-        ;
         operations.addTask(task);
         return task;
-    }
-
-    @Override
-    public Customer addCustomerService(CustomerDTO customerDTO) {
-        //boolean check = checkWord.chekWordToString(customerDTO);//тру,если содержит некрректные значения
-        // CheckWord<CustomerDTO> check = new CheckWord<>(myClassExceptions);
-        // check.chekWordToString(customerDTO);
-        if (customerDTO.getFirstName() == null ||
-            customerDTO.getSecondName() == null) {
-            myClassExceptions.showMeThisException("Поле имени или фамилии не введено или введено некорректно!",
-                new RuntimeException());
-        }
-        Customer customer = new Customer();
-        customer.setFirstName(customerDTO.getFirstName());
-        customer.setSecondName(customerDTO.getSecondName());
-        //TODO сделать дату создания пользователя
-        return customer;
     }
 
     @Override
@@ -167,15 +112,15 @@ public class ServiceClass implements MethodsInterfaceByService {
     }
 
     @Override
-    public void removeTaskByFieldService(TaskDTO taskDTO) {
+    public void removeTaskByFieldService(Task task) {
         List<Task> taskList = operations.showMeAllTasks();
         Optional<Task> searchTask = taskList.stream()
-            .filter(e -> e.getNameTask().equals(taskDTO.getNameTask()) && e.getText().equals(taskDTO.getText()))
+            .filter(e -> e.getNameTask().equals(task.getNameTask()) && e.getText().equals(task.getText()))
             .findFirst();
-        if(!searchTask.isEmpty()){
+        if (!searchTask.isEmpty()) {
             operations.removeTaskById(searchTask.get().getId());
-        }else {
-            myClassExceptions.showMeThisException("Такого таска не существует",new RuntimeException());
+        } else {
+            myClassExceptions.showMeThisException("Такого таска не существует", new RuntimeException());
         }
     }
 }

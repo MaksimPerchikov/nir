@@ -12,7 +12,6 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.nir.dto.TaskDTO;
 import ru.nir.model.Task;
 import ru.nir.service.ServiceClass;
 
@@ -22,21 +21,21 @@ public class TaskEdit extends VerticalLayout implements KeyNotifier {
 
     private final ServiceClass service;
 
-    private TaskDTO taskDTO;
+    private Task task;
 
-    Binder<TaskDTO> binder = new Binder<>(TaskDTO.class);
+    Binder<Task> binder = new Binder<>(Task.class);
+
     @Setter
     private ChangeHandler changeHandler;
 
     TextField nameTask = new TextField("Task name");
     TextField text = new TextField("Text");
 
-    private Button save = new Button("Save",VaadinIcon.CHECK.create());
-    private Button cancel = new Button("Cancel");
-    private Button delete = new Button("Delete",VaadinIcon.TRASH.create());
+    private final Button save = new Button("Save",VaadinIcon.CHECK.create());
+    private final Button cancel = new Button("Cancel");
+    private final Button delete = new Button("Delete",VaadinIcon.TRASH.create());
     private HorizontalLayout actions = new HorizontalLayout(save,cancel,delete);
 
-    private Binder<TaskDTO> taskBinder = new Binder<>(TaskDTO.class);
     public interface ChangeHandler{
         void onChange();
     }
@@ -44,7 +43,7 @@ public class TaskEdit extends VerticalLayout implements KeyNotifier {
     @Autowired
     public TaskEdit(ServiceClass service){
         this.service = service;
-        add(nameTask, text,actions);
+        add(nameTask,text,actions);
         binder.bindInstanceFields(this);
         setSpacing(true);//добавляет интервалы между филдами
 
@@ -56,25 +55,30 @@ public class TaskEdit extends VerticalLayout implements KeyNotifier {
 
         save.addClickListener(e -> save());
         delete.addClickListener(e -> delete());
-        cancel.addClickListener(e -> editTask(taskDTO));
+        cancel.addClickListener(e -> editTask(task));
         setVisible(false);//сделай формочку невидимой
 
     }
     private void save(){
-        service.addTaskService(taskDTO);
+        service.addTaskService(task);
         changeHandler.onChange();
     }
     private void delete(){
-        service.removeTaskByFieldService(taskDTO);
+        service.removeTaskByFieldService(task);
         changeHandler.onChange();
     }
 
-    public void editTask(TaskDTO taskDTO){
-        if (taskDTO == null){
+    public void editTask(Task newTask){
+        if (newTask == null){
             setVisible(false);//формочка становится невидимая
             return;
         }
-       binder.setBean(taskDTO);
+        if(newTask.getId() != null){
+            this.task = service.getTaskByIdService(newTask.getId());
+        }else {
+            task = newTask;
+        }
+        binder.setBean(this.task);
         setVisible(true);
         text.focus();
     }
