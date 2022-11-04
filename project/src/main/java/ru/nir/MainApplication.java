@@ -1,21 +1,20 @@
 package ru.nir;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
+import javax.mail.MessagingException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import ru.nir.gmail.EmailSender;
 
 @SpringBootApplication
 public class MainApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws MessagingException {
         SpringApplication.run(MainApplication.class);
-
+        //   System.out.println("Hello");
+       // EmailSender emailSender = new EmailSender();
+        //emailSender.sendEmailMain("maksim.perch99@gmail.com");
     }
 }
 

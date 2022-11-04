@@ -13,37 +13,40 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
-/*import ru.nir.components.TaskEdit;*/
-import ru.nir.components.MainLayout;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.nir.components.TaskEdit;
 import ru.nir.model.Task;
-import ru.nir.repository.TaskRepository;
-import ru.nir.service.ServiceClass;
-
-@Route("/")
-@PermitAll
+import ru.nir.repository.RepositoryUsersInMemory;
+import ru.nir.service.NewRepositoryInMemory;
+@Route("/main")
+@AnonymousAllowed
 public class MainView extends VerticalLayout {
 
-    private final TaskRepository taskRepository;
-    private final ServiceClass service;
+    private final NewRepositoryInMemory newRepositoryInMemory;
     final Grid<Task> grid;
     private final TextField filter = new TextField(" ","Type to filter");
     private final Button buttonAddNew = new Button("Add new ");
     private final HorizontalLayout toolbar = new HorizontalLayout(filter,buttonAddNew);
     private final TaskEdit editor;
     private Button button = new Button();
+    private final RepositoryUsersInMemory repositoryUsersInMemory;
 
     @Autowired
-    public MainView(TaskRepository taskRepository,
-        ServiceClass service,
-        TaskEdit editor) {
-        this.taskRepository = taskRepository;
+    public MainView(NewRepositoryInMemory newRepositoryInMemory,
+        TaskEdit editor,RepositoryUsersInMemory repositoryUsersInMemory) {
         this.grid = new Grid<>(Task.class);
-        this.service = service;
+        this.newRepositoryInMemory = newRepositoryInMemory;
         this.editor = editor;
+        this.repositoryUsersInMemory = repositoryUsersInMemory;
         add(toolbar,grid,editor);
 
         filter.setValueChangeMode(ValueChangeMode.EAGER);//фильтр обновляет статус после каждого нажатия кнопки
@@ -60,6 +63,7 @@ public class MainView extends VerticalLayout {
         Paragraph p = new Paragraph("para");
         button.setText("Выйти");
         Anchor a = new Anchor("http://localhost:8080/logout", button);
+        repositoryUsersInMemory.roleChangeOnUser();
         p.add(a);
         p.addClickListener(e-> UI.getCurrent().navigate(a.getHref()));
         add(a);
@@ -69,9 +73,9 @@ public class MainView extends VerticalLayout {
 
     private void showTask(String name) {
         if(name.isEmpty()){
-            grid.setItems(service.showMeAllTasksService());
+            grid.setItems(newRepositoryInMemory.showAllValueNew());
         }else {
-            grid.setItems(service.getTaskByNameService(name));
+            grid.setItems(newRepositoryInMemory.getTaskByNameServiceNew(name));
         }
 
     }

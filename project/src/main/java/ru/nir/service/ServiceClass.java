@@ -1,23 +1,13 @@
 package ru.nir.service;
 
-import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.nir.exceptions.MyClassExceptions;
-import ru.nir.model.Task;
-
-import java.util.List;
-import ru.nir.operations.CheckWord;
-import ru.nir.service.interfaceserv.MethodsInterfaceByService;
-import ru.nir.service.operationsOverDb.OperationsWithRepository;
 
 @Service
-public class ServiceClass implements MethodsInterfaceByService {
+public class ServiceClass extends NewRepositoryInMemory/* implements MethodsInterfaceByService */ {
 
-    private final MyClassExceptions myClassExceptions;
+    /*private final MyClassExceptions myClassExceptions;
     private final CheckWord checkWord;
-
-    private final OperationsWithRepository operations;
+    private final OperationsWithRepository operations
 
     @Autowired
     public ServiceClass(MyClassExceptions myClassExceptions,
@@ -26,9 +16,36 @@ public class ServiceClass implements MethodsInterfaceByService {
         this.myClassExceptions = myClassExceptions;
         this.operations = operations;
         this.checkWord = checkWord;
+    }*/
+/*
+    @Override
+    public List <Task> showAllValueNew() {
+        return super.showAllValueNew();
     }
 
+    @Override
+    public Task getTaskByIdServiceNew(Long id) {
+        return super.getTaskByIdServiceNew(id);
+    }
 
+    @Override
+    public Task addTaskServiceNew(Task task) {
+        return super.addTaskServiceNew(task);
+    }
+
+    @Override
+    public void removeTaskByIdServiceNew(Long id) {
+        super.removeTaskByIdServiceNew(id);
+    }
+
+    @Override
+    public void removeTaskByFieldServiceNew(Task task) {
+        super.removeTaskByFieldServiceNew(task);
+    }*/
+
+
+
+/*
     @Override
     public List<Task> showMeAllTasksService() {
         if (operations.showMeAllTasks().isEmpty()) {
@@ -122,5 +139,5 @@ public class ServiceClass implements MethodsInterfaceByService {
         } else {
             myClassExceptions.showMeThisException("Такого таска не существует", new RuntimeException());
         }
-    }
+    }*/
 }

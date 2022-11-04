@@ -1,3 +1,4 @@
+/*
 package ru.nir.service.operationsOverDb;
 
 import java.util.List;
@@ -38,3 +39,4 @@ public class OperationsWithRepository implements OperationByOperationsWithReposi
         taskRepository.deleteById(id);
     }
 }
+*/

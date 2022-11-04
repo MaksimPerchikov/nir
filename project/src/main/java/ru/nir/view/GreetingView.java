@@ -10,12 +10,14 @@ import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.login.LoginI18n.Form;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Route("/greeting")
 @AnonymousAllowed
+@PageTitle("Greeting")
 public class GreetingView extends VerticalLayout {
 
     private Button button = new Button();
@@ -27,7 +29,7 @@ public class GreetingView extends VerticalLayout {
         Anchor a = new Anchor("http://localhost:8080/login", button);
         p.add(a);
         p.addClickListener(e-> UI.getCurrent().navigate(a.getHref()));
-        add(new H1("Приветствую! Для продолжение нужно авторизоваться!"), a);
+        add(new H1("Приветствую! Для продолжения нужно авторизоваться!"), a);
 
     }
 

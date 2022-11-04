@@ -13,13 +13,13 @@ import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.nir.model.Task;
-import ru.nir.service.ServiceClass;
+import ru.nir.service.NewRepositoryInMemory;
 
 @SpringComponent
 @UIScope
 public class TaskEdit extends VerticalLayout implements KeyNotifier {
 
-    private final ServiceClass service;
+    private final NewRepositoryInMemory newRepositoryInMemory;
 
     private Task task;
 
@@ -41,8 +41,8 @@ public class TaskEdit extends VerticalLayout implements KeyNotifier {
     }
 
     @Autowired
-    public TaskEdit(ServiceClass service){
-        this.service = service;
+    public TaskEdit(NewRepositoryInMemory newRepositoryInMemory){
+        this.newRepositoryInMemory = newRepositoryInMemory;
         add(nameTask,text,actions);
         binder.bindInstanceFields(this);
         setSpacing(true);//добавляет интервалы между филдами
@@ -60,11 +60,11 @@ public class TaskEdit extends VerticalLayout implements KeyNotifier {
 
     }
     private void save(){
-        service.addTaskService(task);
+        newRepositoryInMemory.addTaskServiceNew(task);
         changeHandler.onChange();
     }
     private void delete(){
-        service.removeTaskByFieldService(task);
+        newRepositoryInMemory.removeTaskByFieldServiceNew(task);
         changeHandler.onChange();
     }
 
@@ -74,7 +74,7 @@ public class TaskEdit extends VerticalLayout implements KeyNotifier {
             return;
         }
         if(newTask.getId() != null){
-            this.task = service.getTaskByIdService(newTask.getId());
+            this.task = newRepositoryInMemory.getTaskByIdServiceNew(newTask.getId());
         }else {
             task = newTask;
         }
