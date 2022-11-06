@@ -18,7 +18,6 @@ import javax.mail.MessagingException;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.nir.gmail.EmailSender;
-import ru.nir.model.Users;
 import ru.nir.repository.RepositoryUsersInMemory;
 
 @SpringComponent
@@ -32,13 +31,14 @@ public class TwoLoginEdit extends VerticalLayout implements KeyNotifier {
 
     @Setter
     private ChangeHandler changeHandler;
-    TextField yourEmail = new TextField("your email");
     private Button sendEmail = new Button("Send email");
     TextField code = new TextField("Code with mess");
     private Button check = new Button("Check code");
+    private Button linkMail = new Button("Link mail.");
+
+
 
     public interface ChangeHandler {
-
         void onChange();
     }
 
@@ -48,9 +48,18 @@ public class TwoLoginEdit extends VerticalLayout implements KeyNotifier {
     public TwoLoginEdit(RepositoryUsersInMemory repositoryUsersInMemory,EmailSender emailSender) {
         this.repositoryUsersInMemory = repositoryUsersInMemory;
         this.emailSender = emailSender;
-        add(yourEmail, sendEmail, code, check);
+        add(sendEmail, code, check,linkMail);
+
         sendEmail.addClickListener(e -> {
-            enterMethod(yourEmail.getValue());
+
+            if(repositoryUsersInMemory.getEmail().equals("")){
+                Notification notification = Notification.show("К вашему аккаунту не привязана почта");
+                notification.addThemeVariants(NotificationVariant.LUMO_ERROR);
+            }else {
+                enterMethod(repositoryUsersInMemory.getEmail());
+                Notification notification = Notification.show("На вашу почту отправлен код, проверьте почту.");
+                notification.addThemeVariants(NotificationVariant.LUMO_PRIMARY);
+            }
         });
 
         check.addClickListener(e -> {
@@ -59,6 +68,9 @@ public class TwoLoginEdit extends VerticalLayout implements KeyNotifier {
             } catch (InterruptedException ex) {
                 ex.printStackTrace();
             }
+        });
+        linkMail.addClickListener(e -> {
+            getUI().get().getPage().open("http://localhost:8080/linkMail");
         });
 
     }

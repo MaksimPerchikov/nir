@@ -13,6 +13,7 @@ public class RepositoryUsersInMemory {
         users.setName("user");
         users.setPassword("password");
         users.setRole("USER");
+        users.setEmail("");
         newRepository.add(users);
     }
 
@@ -28,6 +29,14 @@ public class RepositoryUsersInMemory {
     public void roleChangeOnUser(){
         newRepository.get(0)
             .setRole("USER");
+    }
+    public void saveEmailInUser(String email){
+        newRepository.get(0).setEmail(email);
+    }
+
+    public String getEmail(){
+       return newRepository.get(0)
+            .getEmail();
     }
 
 }
